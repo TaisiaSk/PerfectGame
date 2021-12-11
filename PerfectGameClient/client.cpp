@@ -100,8 +100,15 @@ int main(int argc, const char* argv[])
 
 	PlayerPos position = {0,1};
 
+	bool block_changed;
+	GameIdx block_i;
+	GameIdx block_j;
+	GameState::Block block;
+
 	while (1)
 	{
+		block_changed = false;
+
 		//receive a reply and print it
 		size_t sz = kBufferSize;
 		if (sock_ptr->recv(buffer, sz) != 0)
@@ -172,13 +179,24 @@ int main(int argc, const char* argv[])
 
 			else if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left)
 			{
-				GameIdx i = event.mouseButton.x / 90;
-				GameIdx j = event.mouseButton.y / 90;
-				if (Vector2f(i * 90, j * 90) == select.getPosition())
+				block_i = event.mouseButton.x / 90;
+				block_j = event.mouseButton.y / 90;
+				if (herosprite.getPosition().x >= (block_i * 90 - 90) && herosprite.getPosition().x <= (block_i * 90 + 90) &&
+					herosprite.getPosition().y >= (block_j * 90 - 90) && herosprite.getPosition().y <= (block_j * 90 + 90) &&
+					Vector2f(block_i * 90, block_j * 90) != herosprite.getPosition())
 				{
-					if (state._map[j][i] == GameState::Block::Background)
-						state.updateMap(j, i, GameState::Block::Ground);
-					else state.updateMap(j, i, GameState::Block::Background);
+					block_changed = true;
+					if (state._map[block_j][block_i] == GameState::Block::Background) {
+						state.updateMap(block_j, block_i, GameState::Block::Ground);
+						block = GameState::Block::Ground;
+					}
+						
+					else
+					{
+						state.updateMap(block_j, block_i, GameState::Block::Background);
+						block = GameState::Block::Background;
+					}
+
 				}
 
 			}
@@ -284,6 +302,13 @@ int main(int argc, const char* argv[])
 
 		sz = kBufferSize;
 		p->serialize(buffer, sz);
+		if (block_changed) {
+			buffer[sz++] = block_j;
+			buffer[sz++] = block_i;
+			buffer[sz++] = (char)block;
+
+		}
+
 		if (sock_ptr->send(buffer, sz) != 0)
 		{
 			std::cout << "Failed to send pos\n";

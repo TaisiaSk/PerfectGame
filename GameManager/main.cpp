@@ -99,9 +99,10 @@ int main()
 							x = buf[str_sz + 3];
 							y = buf[str_sz + 4];
 							GameState::Block block = (GameState::Block)buf[str_sz + 5];
+							game.updateMap(x, y, block);
 						}
 					}
-				}
+				}				
 				break;
 			}
 			catch (std::exception const& err)

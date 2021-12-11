@@ -34,7 +34,7 @@ int main()
     int y = 1;
 
     Font font;
-    if (!font.loadFromFile("Electrolize-Regular.ttf"))
+    if (!font.loadFromFile("../Electrolize-Regular.ttf"))
     {
         err() << "Couldn't load font\n";
         return 1;
