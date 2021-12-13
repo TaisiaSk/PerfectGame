@@ -284,17 +284,17 @@ int main(int argc, const char* argv[])
 			if (it.first != name) 
 			{
 				enemy.setPosition(it.second.getPos().first * 90, it.second.getPos().second * 90);
-				Text text1(it.first, font, 20);
-				text1.setFillColor(Color(0, 0, 0, 155));
-				text1.setStyle(Text::Bold);
-				float width1 = text1.getLocalBounds().width;
+				Text enemy_name(it.first, font, 20);
+				enemy_name.setFillColor(Color(0, 0, 0, 155));
+				enemy_name.setStyle(Text::Bold);
+				float width1 = enemy_name.getLocalBounds().width;
 				if (it.second.getPos().second != 0)
-					text1.setPosition(it.second.getPos().first * 90 + 45 - width1 / 2, it.second.getPos().second * 90 - 30);
+					enemy_name.setPosition(it.second.getPos().first * 90 + 45 - width1 / 2, it.second.getPos().second * 90 - 30);
 				else
-					text1.setPosition(it.second.getPos().first * 90 + 45 - width1 / 2, 90);
+					enemy_name.setPosition(it.second.getPos().first * 90 + 45 - width1 / 2, 90);
 
 				window.draw(enemy);
-				window.draw(text1);
+				window.draw(enemy_name);
 			}
 		}
 		
@@ -316,6 +316,5 @@ int main(int argc, const char* argv[])
 		}
 	}
 
-	system("pause");
 	return 0;
 }
