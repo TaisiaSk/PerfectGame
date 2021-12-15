@@ -15,7 +15,9 @@ bool GameState::serialize(char* buffer, size_t& sz)
     size_t const kGameIdxSz = sizeof(GameIdx);
     size_t player_size = 0;
     for (auto& playerPos : _players)
-    {
+    {   
+        if (playerPos.second.getStatus() == PlayerStatus::NotActive)
+            continue;
         player_size += 2 * kGameIdxSz;
         player_size += playerPos.first.size() + 1;
     }
@@ -35,6 +37,8 @@ bool GameState::serialize(char* buffer, size_t& sz)
     size_t ser_player_sz;
     for (auto& map_pair : _players)
     {
+        if (map_pair.second.getStatus() == PlayerStatus::NotActive)
+            continue;
         auto const& player = map_pair.second;
         player.serialize(buffer + out_idx, ser_player_sz);
         out_idx += ser_player_sz;

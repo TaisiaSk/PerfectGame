@@ -202,7 +202,9 @@ int main(int argc, const char* argv[])
 			}
 
 			else if (event.type == Event::Closed)
+			{
 				window.close();
+			}
 		}
 
 		window.clear();
@@ -281,7 +283,7 @@ int main(int argc, const char* argv[])
 
 		for (auto& it : state._players) 
 		{
-			if (it.first != name) 
+			if (it.first != name && it.first != "\0") 
 			{
 				enemy.setPosition(it.second.getPos().first * 90, it.second.getPos().second * 90);
 				Text enemy_name(it.first, font, 20);
@@ -302,11 +304,11 @@ int main(int argc, const char* argv[])
 
 		sz = kBufferSize;
 		p->serialize(buffer, sz);
-		if (block_changed) {
+		if (block_changed) 
+		{
 			buffer[sz++] = block_j;
 			buffer[sz++] = block_i;
 			buffer[sz++] = (char)block;
-
 		}
 
 		if (sock_ptr->send(buffer, sz) != 0)

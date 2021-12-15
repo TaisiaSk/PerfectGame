@@ -13,11 +13,8 @@ public:
     GameIdx _rows;
     GameIdx _cols;
     std::unordered_map<std::string, Player> _players;
-private:
-    ///TODO: map of Player objects?
-    //std::unordered_map<std::string, std::pair<GameIdx, GameIdx> > _players;
-    
-public:
+
+
     GameState(std::string const& config_file_name) {}
     GameState();
 

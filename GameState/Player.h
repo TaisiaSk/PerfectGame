@@ -1,8 +1,9 @@
 #pragma once
 #include <memory>
 #include "..\PerfectGameClient\UdpSocket.h"
+#include <iostream>
 
-enum class PlayerStatus { Active, NotActive };
+enum class PlayerStatus { Active = 0, NotActive = 1 };
 typedef unsigned char GameIdx;
 typedef std::pair<GameIdx, GameIdx> PlayerPos;
 
@@ -59,6 +60,7 @@ public:
     {
         if (_status == PlayerStatus::NotActive)
             return;
+        std::cout << _loss_counter << '\n';
         if (++_loss_counter > kLossThreshold)
         {
             _loss_counter = 0;
